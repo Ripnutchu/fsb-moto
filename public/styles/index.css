@@ -729,6 +729,7 @@ footer.is-after {
 @media (max-width: 480px) {
   header {
     height: 8vh;
+    justify-content: center;
   }
 
   header .logo img {
