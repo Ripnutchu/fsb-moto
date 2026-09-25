@@ -1,0 +1,817 @@
+:root {
+  --font-heading: "Rajdhani", sans-serif;
+  --font-body: "Montserrat", sans-serif;
+
+  --orange: #ff7f11;
+  --white: #f1f5f2;
+  --black: #161925;
+
+  --new-black: #2e282a;
+  --new-white: #fcfcfc;
+
+  --card-width: 90vw;
+  --card-height: 80vh;
+  --card-radius: 30px;
+}
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* =========================================
+   HTML / BODY
+========================================= */
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background-color: var(--new-black);
+  color: var(--black);
+
+  font-family: var(--font-body);
+}
+
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+p {
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+header {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 10vh;
+
+  padding: 0 10vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: var(--new-black);
+
+  z-index: 1000;
+
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  display: block;
+}
+
+/* =========================================
+   NAV
+========================================= */
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* =========================================
+   MAIN SCROLL CONTAINER
+========================================= */
+
+.page-scroll {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /*
+    Snap ostaje aktivan.
+    JS određuje gdje je snap pozicija
+    za svaku karticu.
+  */
+  scroll-snap-type: y mandatory;
+
+  scroll-behavior: smooth;
+
+  perspective: 1200px;
+
+  scrollbar-width: none;
+}
+
+.page-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================================
+   GENERIC CARD
+========================================= */
+
+.scroll-card {
+  position: relative;
+
+  transform-origin: center center;
+
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.55s ease,
+    filter 0.55s ease;
+
+  will-change: transform, opacity, filter;
+
+  /*
+    Default.
+    JS će za normalne kartice dodati
+    scroll-margin kako bi bile centrirane.
+  */
+  scroll-snap-align: center;
+
+  scroll-snap-stop: normal;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+
+  min-height: 600px;
+
+  overflow: hidden;
+
+  background-color: var(--new-black);
+
+  scroll-snap-align: start;
+
+  scroll-snap-stop: always;
+
+  z-index: 10;
+}
+
+/* =========================================
+   HERO SLIDES
+========================================= */
+
+.hero-slide {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  opacity: 0;
+
+  animation: heroCrossfade 18s infinite;
+}
+
+.hero-slide1 {
+  background-image: url("../assets/images/hero_img1.jpg");
+
+  animation-delay: 0s;
+}
+
+.hero-slide2 {
+  background-image: url("../assets/images/hero_img2.jpeg");
+
+  animation-delay: 5s;
+}
+
+.hero-slide3 {
+  background-image: url("../assets/images/hero_img3.jpg");
+
+  animation-delay: 10s;
+}
+
+/* =========================================
+   HERO OVERLAY
+========================================= */
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(22, 25, 37, 0.9) 0%,
+      rgba(22, 25, 37, 0.55) 45%,
+      rgba(22, 25, 37, 0.85) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75));
+
+  z-index: 2;
+}
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.hero-content {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 90%;
+
+  text-align: center;
+
+  color: var(--white);
+
+  z-index: 3;
+}
+
+.hero-content h1 {
+  font-size: clamp(4rem, 10vw, 9rem);
+
+  margin-bottom: 1rem;
+
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+.hero-content p {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5em;
+
+  margin-top: 1rem;
+
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+
+  color: var(--orange);
+}
+
+/* =========================================
+   CONTENT CARDS
+========================================= */
+
+.content-section {
+  position: relative;
+
+  width: var(--card-width);
+
+  /*
+    Osnovna visina kartice.
+  */
+  min-height: var(--card-height);
+
+  height: auto;
+
+  /*
+    Razmak između kartica.
+  */
+  margin: 8vh auto;
+
+  padding: 8vh 5vw;
+
+  background-color: var(--new-white);
+
+  border-radius: var(--card-radius);
+
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+
+  /*
+    Kartica nema vlastiti scroll.
+  */
+  overflow: visible;
+
+  /*
+    JS može promijeniti ponašanje
+    ako kartica postane previsoka.
+  */
+  scroll-snap-align: center;
+
+  scroll-snap-stop: normal;
+
+  z-index: 2;
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.main-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.main-container h2 {
+  margin-bottom: 2rem;
+
+  font-size: clamp(2.5rem, 5vw, 5rem);
+
+  line-height: 1;
+}
+
+.main-container p {
+  margin-bottom: 1.5rem;
+
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+form {
+  width: 100%;
+
+  margin-top: 4rem;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: space-between;
+
+  gap: 1.5rem;
+}
+
+form input {
+  width: calc(50% - 0.75rem);
+
+  min-height: 55px;
+
+  padding: 0 1.25rem;
+
+  border: 2px solid rgba(22, 25, 37, 0.15);
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background-color: transparent;
+
+  color: var(--black);
+
+  font-family: var(--font-body);
+
+  font-size: 1rem;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+form input:focus {
+  border-color: var(--orange);
+
+  background-color: rgba(255, 127, 17, 0.03);
+}
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+.submit {
+  width: 100%;
+
+  display: flex;
+
+  align-items: stretch;
+
+  gap: 1.5rem;
+}
+
+.submit textarea {
+  flex: 1;
+
+  min-height: 180px;
+
+  padding: 1.25rem;
+
+  resize: vertical;
+
+  border: 2px solid rgba(22, 25, 37, 0.15);
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background-color: transparent;
+
+  color: var(--black);
+
+  font-family: var(--font-body);
+
+  font-size: 1rem;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.submit textarea:focus {
+  border-color: var(--orange);
+
+  background-color: rgba(255, 127, 17, 0.03);
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.submit button {
+  width: 20%;
+
+  min-width: 150px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background-color: var(--orange);
+
+  color: var(--white);
+
+  font-family: var(--font-heading);
+
+  font-size: 1.2rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.submit button:hover {
+  transform: translateY(-3px);
+
+  filter: brightness(1.1);
+}
+
+.submit button:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+  position: relative;
+
+  width: var(--card-width);
+
+  min-height: 30vh;
+
+  height: auto;
+
+  margin: 8vh auto 0;
+
+  padding: 4vh 10vw;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  background-color: var(--new-black);
+
+  color: var(--white);
+
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+
+  /*
+    Footer je centrirana kartica.
+  */
+  scroll-snap-align: center;
+
+  scroll-snap-stop: normal;
+
+  /*
+    Footer nikad ne smije dobiti
+    transform/blur preko vizualnog efekta.
+  */
+  filter: none !important;
+  opacity: 1;
+
+  z-index: 5;
+}
+
+footer p {
+  margin: 0;
+
+  text-align: center;
+}
+
+footer a {
+  color: inherit;
+
+  text-decoration: none;
+}
+
+footer img {
+  display: block;
+}
+
+/* =========================================
+   CARD STATES
+========================================= */
+
+.scroll-card.is-active {
+  opacity: 1;
+
+  filter: none;
+
+  transform: translateZ(0) scale(1);
+
+  z-index: 20;
+}
+
+.scroll-card.is-before {
+  opacity: 0.45;
+
+  filter: blur(2px);
+
+  transform: translateZ(-100px) scale(0.94);
+
+  z-index: 1;
+}
+
+.scroll-card.is-after {
+  opacity: 0.45;
+
+  filter: blur(2px);
+
+  transform: translateZ(-100px) scale(0.94);
+
+  z-index: 1;
+}
+
+/* =========================================
+   HERO - ALWAYS CLEAN
+========================================= */
+
+.hero.is-active,
+.hero.is-before,
+.hero.is-after {
+  filter: none !important;
+
+  opacity: 1 !important;
+
+  transform: none !important;
+
+  z-index: 20;
+}
+
+/* =========================================
+   FOOTER - ALWAYS CLEAN
+========================================= */
+
+footer.is-active,
+footer.is-before,
+footer.is-after {
+  filter: none !important;
+
+  opacity: 1 !important;
+
+  transform: none !important;
+
+  z-index: 20;
+}
+
+/* =========================================
+   TALL CARD MODE
+========================================= */
+
+/*
+  Ovo dodaje JS.
+
+  Ako je kartica viša od viewporta,
+  ne želimo je centrirati jer tada
+  početak/kraj kartice može postati
+  nedostupan.
+*/
+
+.scroll-card.is-tall {
+  scroll-snap-align: start;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  :root {
+    --card-width: 92vw;
+    --card-height: 72vh;
+    --card-radius: 24px;
+  }
+
+  header {
+    padding: 0 6vw;
+  }
+
+  .hero {
+    min-height: 600px;
+  }
+
+  .content-section {
+    margin: 6vh auto;
+
+    padding: 6vh 7vw;
+  }
+
+  .page-scroll {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+
+  .scroll-card,
+  .content-section,
+  footer {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .scroll-card.is-tall {
+    scroll-snap-align: none;
+  }
+
+  form input {
+    width: 100%;
+  }
+
+  .submit {
+    flex-direction: column;
+  }
+
+  .submit textarea {
+    width: 100%;
+  }
+
+  .submit button {
+    width: 100%;
+
+    min-height: 60px;
+  }
+
+  footer {
+    min-height: 25vh;
+
+    margin-top: 6vh;
+
+    padding: 4vh 7vw;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+  }
+}
+
+/* =========================================
+   VERY SMALL SCREENS
+========================================= */
+
+@media (max-width: 480px) {
+  header {
+    height: 8vh;
+  }
+
+  header .logo img {
+    width: 50px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(3.5rem, 10vw, 9rem);
+  }
+
+  .hero-content p {
+    font-size: 0.8rem;
+  }
+
+  .content-section {
+    padding: 5vh 6vw;
+  }
+
+  .main-container h2 {
+    font-size: 2.5rem;
+  }
+
+  .main-container p {
+    font-size: 0.95rem;
+  }
+
+  footer {
+    flex-direction: column;
+
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+  }
+
+  footer > a {
+    margin: 2vh auto;
+  }
+}
+
+/* =========================================
+   HERO CROSSFADE
+========================================= */
+
+@keyframes heroCrossfade {
+  0% {
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  35% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .page-scroll {
+    scroll-behavior: auto;
+  }
+
+  .hero-slide {
+    animation: none;
+  }
+
+  .scroll-card {
+    transition: none;
+  }
+}
