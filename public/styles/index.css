@@ -269,6 +269,8 @@ nav {
   color: var(--white);
 
   z-index: 3;
+
+  pointer-events: none;
 }
 
 .hero-content h1 {
